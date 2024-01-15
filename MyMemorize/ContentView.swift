@@ -9,31 +9,37 @@ import SwiftUI
 import SwiftData
 
 struct ContentView: View {
-    var emojis = ["🥦", "🌽", "🥕", "🫛"]
+    var emojis = ["🥦", "🌽", "🥕", "🫛", "🥦", "🌽", "🥕", "🫛"]
     
     var body: some View {
-        LazyVGrid(columns: [GridItem(), GridItem()]) {
-            cardView(emoji: emojis[0])
-            cardView(emoji: emojis[0])
-            cardView(emoji: emojis[0])
-            cardView(emoji: emojis[0])
-            cardView(emoji: emojis[1])
-            cardView(emoji: emojis[1])
-            cardView(emoji: emojis[2])
-            cardView(emoji: emojis[2])
-            cardView(emoji: emojis[3])
-            cardView(emoji: emojis[3])
+        ScrollView {
+            LazyVGrid(columns: [GridItem(), GridItem()]) {
+                ForEach(0..<8) { index in
+                    CardView(id: index, emoji: emojis[index])
+                }
+                .aspectRatio(1, contentMode: .fill)
+                .onTapGesture {
+                    
+                }
+            }
         }
         .padding()
     }
+    
+    init() {
+        emojis.shuffle()
+    }
 }
 
-struct cardView: View {
+struct CardView: View, Identifiable {
+    var id: Int
     let emoji: String
+    var isFaceUp = true
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 50)
             Text(emoji).font(.custom("gigant", size: 50))
+            
         }
     }
 }

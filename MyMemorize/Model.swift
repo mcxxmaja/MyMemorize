@@ -12,13 +12,13 @@ struct MemorizeGameModel {
     
     init() {
         cards.reserveCapacity(8)
-        for _ in 0...3 {
-            cards.append(Card(str: "temp"))
-            cards.append(Card(str: "temp"))
+        for index in 0...3 {
+            cards.append(Card())
+            cards.append(Card())
         }
     }
     
     struct Card {
-        let str: String
+        let str: String = "temp"
     }
 }
