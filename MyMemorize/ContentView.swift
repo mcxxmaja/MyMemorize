@@ -18,7 +18,7 @@ struct ContentView: View {
                     CardView(card: card)
                         .aspectRatio(1, contentMode: .fill)
                         .onTapGesture {
-                            model.toggle(card: card)
+                            model.tapped(tappedCard: card)
                         }
                 }
             }
@@ -29,14 +29,21 @@ struct ContentView: View {
 
 struct CardView: View {
     var card: MemorizeGameModel.Card
+    let cardShape = RoundedRectangle(cornerRadius: 50)
     
     var body: some View {
         ZStack {
-            RoundedRectangle(cornerRadius: 50)
-            card.isFaceUp ? Text(card.emoji).font(.custom("gigant", size: 50)) : Text("")
+            if card.isFaceUp || card.isMatched {
+                cardShape
+                Text(card.emoji).font(.custom("gigant", size: 50))
+            } else {
+                cardShape.foregroundColor(.blue)
+            }
         }
+        .padding(5)
     }
 }
+
 
 #Preview {
     ContentView()

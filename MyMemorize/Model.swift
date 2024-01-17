@@ -10,6 +10,7 @@ import Foundation
 struct MemorizeGameModel {
     var emojis = ["🥦", "🌽", "🥕", "🫛"]
     var cards: [Card] = []
+    var firstUncoverendCardIndex: Int?
     
     init() {
         cards.reserveCapacity(8)
@@ -20,19 +21,28 @@ struct MemorizeGameModel {
         cards.shuffle()
     }
     
-    struct Card: Identifiable{
-        var id: Int
-        let emoji: String
-        var isFaceUp = true
-        var isMatched = false
+    mutating func tapped(tappedCard: Card) {
+        //check matching
+        toggle(card: tappedCard)
     }
     
     mutating func toggle(card: Card) {
-        let index = cards.firstIndex { tappedCard in
-            tappedCard.id == card.id
-        }
-        if let index {
+        if let index = findCardIndex(card: card) {
             cards[index].isFaceUp.toggle()
         }
+    }
+    
+    func findCardIndex(card: Card) -> Int? {
+        let index = cards.firstIndex { cardIt in
+            card.id == cardIt.id
+        }
+        return index
+    }
+    
+    struct Card: Identifiable{
+        var id: Int
+        let emoji: String
+        var isFaceUp = false
+        var isMatched = false
     }
 }
