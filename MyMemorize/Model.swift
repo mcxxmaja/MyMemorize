@@ -22,19 +22,29 @@ struct MemorizeGameModel {
     }
     
     mutating func tapped(tappedCard: Card) {
-        //check matching
-        if firstUncoverendCardIndex == nil { // odkrycie pierwszej
-            firstUncoverendCardIndex = findCardIndex(card: tappedCard)
-            coverAll()
-            toggle(card: tappedCard)
-        } else { // odkrycie drugiej
-            toggle(card: tappedCard)
-            if cards[firstUncoverendCardIndex!].emoji == tappedCard.emoji {
-                cards[firstUncoverendCardIndex!].isMatched = true
-                cards[findCardIndex(card: tappedCard)!].isMatched = true
+        if let uncoveredBeforeIndex = firstUncoverendCardIndex {
+            if cards[uncoveredBeforeIndex].emoji == tappedCard.emoji {
+                markMatched(at: uncoveredBeforeIndex)
+                markMatched(card: tappedCard)
             }
             firstUncoverendCardIndex = nil
+            
+        } else {
+            coverAll()
+            firstUncoverendCardIndex = findCardIndex(card: tappedCard)
         }
+        toggle(card: tappedCard)
+    }
+    
+    mutating func markMatched(card: Card) {
+        if let index = findCardIndex(card: card) {
+            cards[index].isMatched = false
+            cards[index].isMatched = true
+        }
+    }
+    
+    mutating func markMatched(at index: Int) {
+        cards[index].isMatched = true
     }
     
     mutating func coverAll() {
