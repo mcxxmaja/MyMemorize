@@ -7,10 +7,14 @@
 
 import Foundation
 
-struct ViewModel {
-    var model = MemorizeGameModel()
+class ViewModel: ObservableObject {
+    @Published var model = MemorizeGameModel()
     
     func getCards() -> [MemorizeGameModel.Card] {
         model.cards
+    }
+    
+    func tapped(tappedCard: MemorizeGameModel.Card) {
+        model.tapped(tappedCard: tappedCard)
     }
 }

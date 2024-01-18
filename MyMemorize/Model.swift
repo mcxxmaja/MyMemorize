@@ -13,7 +13,7 @@ struct MemorizeGameModel {
     var firstUncoverendCardIndex: Int?
     
     init() {
-        cards.reserveCapacity(8)
+        cards.reserveCapacity(emojis.count * 2)
         for index in 0..<4 {
             cards.append(Card(id: 2 * index, emoji: emojis[index]))
             cards.append(Card(id: 2 * index + 1, emoji: emojis[index]))

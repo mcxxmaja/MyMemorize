@@ -9,21 +9,25 @@ import SwiftUI
 import SwiftData
 
 struct ContentView: View {
-    @State var model: MemorizeGameModel = MemorizeGameModel()
+    @ObservedObject var viewModel: ViewModel
     
     var body: some View {
         ScrollView {
             LazyVGrid(columns: [GridItem(), GridItem()]) {
-                ForEach(model.cards) { card in
+                ForEach(viewModel.getCards()) { card in
                     CardView(card: card)
                         .aspectRatio(1, contentMode: .fill)
                         .onTapGesture {
-                            model.tapped(tappedCard: card)
+                            viewModel.tapped(tappedCard: card)
                         }
                 }
             }
         }
         .padding()
+    }
+    
+    init(viewModel: ViewModel) {
+        self.viewModel = viewModel
     }
 }
 
@@ -45,6 +49,19 @@ struct CardView: View {
 }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
 #Preview {
-    ContentView()
+    ContentView(viewModel: ViewModel())
 }
